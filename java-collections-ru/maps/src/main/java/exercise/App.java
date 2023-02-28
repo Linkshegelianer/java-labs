@@ -1,18 +1,14 @@
 package exercise;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 // BEGIN
-class App {
+public static App {
     public static Map<String, Integer> getWordCount(String sentence) {
         Map<String, Integer> wordCount = new HashMap<>();
         String[] words = sentence.split(" ");
-	
-	if (sentence == "") {
-		return Collections.emptyMap();
-	}
+
         for (String word : words) {
             if (wordCount.containsKey(word)) {
                 int count = wordCount.get(word);
@@ -25,18 +21,17 @@ class App {
     }
 
     public static String toString(Map<String, Integer> hashMap) {
-        if (hashMap.size() == 0) {
-		return "{}";
-	}
-
-	StringBuilder result = new StringBuilder();
-        result.append("{" + "\n");
-        for (Map.Entry word : hashMap.entrySet()) {
-		result.append("  " + word.getKey() + ": " + word.getValue() + "\n");
+        StringBuilder sb = new StringBuilder();
+        sb.append("{\n");
+        for (Map.Entry<String, Integer> entry : hashMap.entrySet()) {
+            sb.append("  ");
+            sb.append(entry.getKey());
+            sb.append(": ");
+            sb.append(entry.getValue());
+            sb.append(",\n");
         }
-        result.append("}");
-        return String.valueOf(result);
+        sb.append("}");
+        return sb.toString();
     }
 }
-
 //END
