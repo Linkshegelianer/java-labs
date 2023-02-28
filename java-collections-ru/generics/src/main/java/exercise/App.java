@@ -6,5 +6,7 @@ import java.util.ArrayList;
 import java.util.Map.Entry;
 
 // BEGIN
-
+public class App {
+  public static void findWhere() { }
+}
 //END
