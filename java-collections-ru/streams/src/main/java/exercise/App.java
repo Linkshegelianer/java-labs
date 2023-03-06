@@ -16,13 +16,6 @@ public class App {
         long hotmail = emails.stream()
                 .filter(email -> email.contains("@hotmail.com"))
                 .count();
-
-//        long freeEmails = emails.stream()
-//                .filter(email -> !email.isEmpty())
-//                .filter(email -> email.contains("gmail.com"))
-//                .filter(email -> email.contains("yandex.ru"))
-//                .filter(email -> email.contains("hotmail.com"))
-//                .count();
         return (int) (gmail + yandex + hotmail);
     }
 }
