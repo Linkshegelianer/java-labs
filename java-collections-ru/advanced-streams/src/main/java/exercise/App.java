@@ -6,8 +6,8 @@ import java.util.Arrays;
 // BEGIN
 public class App {
 
-    public static String getForwardedVariables(String configFileContents) {
-        String[] lines = configFileContents.split("\n");
+    public static String getForwardedVariables(String configFile) {
+        String[] lines = configFile.split("\n");
         String variablesString = Arrays.stream(lines)
                 .filter(line -> line.trim().startsWith("environment") && line.contains("X_FORWARDED_"))
                 .map(line -> line.trim().substring("environment".length() + 1).replaceAll("\"", ""))
