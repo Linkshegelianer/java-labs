@@ -27,7 +27,7 @@ public class SessionServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response)
-                throws IOException, ServletException {
+            throws IOException, ServletException {
 
         if (request.getRequestURI().equals("/login")) {
             showLoginPage(request, response);
@@ -39,8 +39,8 @@ public class SessionServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request,
-                      HttpServletResponse response)
-                throws IOException, ServletException {
+                       HttpServletResponse response)
+            throws IOException, ServletException {
 
         switch (request.getRequestURI()) {
             case "/login":
@@ -56,7 +56,7 @@ public class SessionServlet extends HttpServlet {
 
     private void showLoginPage(HttpServletRequest request,
                                HttpServletResponse response)
-                 throws IOException, ServletException {
+            throws IOException, ServletException {
 
         Map<String, String> user = users.build();
         request.setAttribute("user", user);
@@ -64,8 +64,8 @@ public class SessionServlet extends HttpServlet {
     }
 
     private void login(HttpServletRequest request,
-                               HttpServletResponse response)
-                 throws IOException, ServletException {
+                       HttpServletResponse response)
+            throws IOException, ServletException {
 
         HttpSession session = request.getSession();
 
@@ -76,13 +76,11 @@ public class SessionServlet extends HttpServlet {
 
         Map<String, String> user = users.findByEmail(email);
 
-        // BEGIN
-        
-        // END
 
         if (user == null || !user.get("password").equals(password)) {
             request.setAttribute("user", userData);
             session.setAttribute("flash", "Неверные логин или пароль");
+            LOGGER.log(Level.INFO, "User logged in: {0}", email);
             response.setStatus(422);
             TemplateEngineUtil.render("session/login.html", request, response);
             return;
@@ -90,12 +88,13 @@ public class SessionServlet extends HttpServlet {
 
         session.setAttribute("userId", user.get("id"));
         session.setAttribute("flash", "Вы успешно вошли");
+        LOGGER.log(Level.INFO, "User logged in: {0}", email);
         response.sendRedirect("/");
     }
 
     private void logout(HttpServletRequest request,
-                               HttpServletResponse response)
-                 throws IOException, ServletException {
+                        HttpServletResponse response)
+            throws IOException, ServletException {
 
         HttpSession session = request.getSession();
         session.removeAttribute("userId");
