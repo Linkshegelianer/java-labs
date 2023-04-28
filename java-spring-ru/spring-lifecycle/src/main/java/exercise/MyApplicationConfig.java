@@ -1,6 +1,6 @@
 package exercise;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 import exercise.daytimes.Daytime;
 import exercise.daytimes.Morning;
@@ -17,21 +17,17 @@ public class MyApplicationConfig {
 
     @Bean
     public Daytime currentDayTime() {
-        int currentTime = LocalTime.now().getHour();
+        int currentTime = LocalDateTime.now().getHour();
 
-        boolean isMorning = currentTime >= 6 && currentTime < 12;
-        boolean isDay = currentTime >= 12 && currentTime < 18;
-        boolean isEvening = currentTime >= 18 && currentTime < 23;
-
-        if (isMorning) {
+        if (currentTime >= 6 && currentTime < 12) {
             return new Morning();
         }
 
-        if (isDay) {
+        if (currentTime >= 12 && currentTime < 18) {
             return new Day();
         }
 
-        if (isEvening) {
+        if (currentTime >= 18 && currentTime < 23) {
             return new Evening();
         }
 

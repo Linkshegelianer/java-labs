@@ -20,6 +20,5 @@ public class WelcomeController {
         String currentMeal = meal.getMealForDaytime(now);
         return String.format("It is %s now. Enjoy your %s", now, currentMeal);
     }
-
 }
 // END
