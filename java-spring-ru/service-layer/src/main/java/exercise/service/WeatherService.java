@@ -1,7 +1,5 @@
 package exercise.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import exercise.CityNotFoundException;
 import exercise.HttpClient;
@@ -11,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
-
 
 @Service
 public class WeatherService {
@@ -29,13 +26,31 @@ public class WeatherService {
     }
 
     // BEGIN
-    public Map<String, String> getWeather(Long id) throws JsonProcessingException {
-        String weatherURL = "http://weather/api/v2/cities/";
+    // send GET-request to URL, get JSON and return JSON
+    public Map<String, String> getWeatherData(long id) {
+
+        // find needed city by id
         City city = cityRepository.findById(id)
-                .orElseThrow(()-> new CityNotFoundException("City with id " + id + " not found"));
-        return new ObjectMapper().readValue(client.get(weatherURL + city.getName()),
-                new TypeReference<>() {
-                });
+                .orElseThrow(() -> new CityNotFoundException("City not found"));
+
+        // find name of the given city
+        String cityName = city.getName();
+        // adress to find data from
+        String url = "http://weather/api/v2/cities/" + cityName;
+
+        ObjectMapper mapper = new ObjectMapper();
+        // send GET-request to the needed url
+        String responce = client.get(url);
+
+        Map<String, String> result;
+
+        try {
+            result = mapper.readValue(responce, Map.class); // in which class the value will be transformed
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return result;
     }
     // END
 }

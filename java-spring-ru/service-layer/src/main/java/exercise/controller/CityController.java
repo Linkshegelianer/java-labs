@@ -1,6 +1,5 @@
 package exercise.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import exercise.model.City;
 import exercise.repository.CityRepository;
 import exercise.service.WeatherService;
@@ -10,8 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Comparator;
-import java.util.HashMap;
+import java.util.stream.Collectors;
 import java.util.List;
 import java.util.Map;
 
@@ -26,34 +24,36 @@ public class CityController {
     private WeatherService weatherService;
 
     // BEGIN
-    @GetMapping("/cities/{id}")
-    public Map<String, String> getCityWeather(@PathVariable("id") long id)
-            throws JsonProcessingException {
-        return weatherService.getWeather(id);
-    }
+    @GetMapping(path = "cities/{id}")
+    public Map<String, String> getCity(@PathVariable long id) { return weatherService.getWeatherData(id); }
 
-    @GetMapping("/search")
-    public List<Map<String, String>> getCities(@RequestParam(value = "name", required = false) String name) {
-        List<City> cities = name == null ? cityRepository.findAllByOrderByNameAsc()
-                : cityRepository.findByNameStartingWithIgnoreCase(name);
+    @GetMapping(path = "/search")
+    public List<Map<String, String>> getCities(@RequestParam(required = false) String name) {
 
-        return cities.stream()
-                .map(x -> {
-                    Map<String, String> fullWeatherData = null;
-                    try {
-                        fullWeatherData = weatherService.getWeather(x.getId());
-                    } catch (JsonProcessingException e) {
-                        throw new RuntimeException(e);
-                    }
-                    Map<String, String> weatherData = new HashMap<>();
-                    weatherData.put("temperature", fullWeatherData.get("temperature"));
-                    weatherData.put("name", fullWeatherData.get("name"));
-                    weatherData.put("name", fullWeatherData.get("name"));
-                    return weatherData;
+        // crate empty list and filter it depending on the provided name
+        List<City> filteredCities;
+
+        if (name == null) {
+            filteredCities = cityRepository.findAllByOrderByName();
+        } else {
+            filteredCities = cityRepository.findByNameStartingWithIgnoreCase(name);
+        }
+
+        // create new list and fill it filtered content of the filteredCities
+        List<Map<String, String>> citiesWithWeather = filteredCities.stream()
+                .map(city -> {
+                    Map<String, String> weather = weatherService.getWeatherData(city.getId());
+                    return Map.of(
+                            "name", city.getName(),
+                            "temperature", weather.get("temperature")
+                    );
                 })
-                .sorted(Comparator.comparing(x -> x.get("name")))
-                .toList();
+                .collect(Collectors.toList());
+
+        return citiesWithWeather;
     }
+
+
     // END
 }
 
