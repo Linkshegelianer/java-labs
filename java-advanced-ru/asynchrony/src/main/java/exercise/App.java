@@ -10,62 +10,47 @@ class App {
 
     // BEGIN
     public static CompletableFuture<String> unionFiles(String filePath1, String filePath2, String outputPath) throws Exception {
-        CompletableFuture<String> future = new CompletableFuture<String>();
+        // create Path objects
         Path path1 = Paths.get(filePath1);
         Path path2 = Paths.get(filePath2);
         Path outputPathObj = Paths.get(outputPath);
 
-        CompletableFuture<String> readFile1 = CompletableFuture.supplyAsync(() -> {
+        // read content of the first file
+        CompletableFuture<String> content1 = CompletableFuture.supplyAsync(() -> {
+            String content = "";
+
             try {
-                return Files.readString(path1);
+                content = Files.readString(path1);
             } catch (Exception e) {
-                future.completeExceptionally(e);
+                throw new RuntimeException(e); // but the test wait for NoSuchFileException, dunno why
             }
-            return null;
+            return content;
         });
 
-        CompletableFuture<String> readFile2 = CompletableFuture.supplyAsync(() -> {
+        CompletableFuture<String> content2 = CompletableFuture.supplyAsync(() -> {
+
+            String content = "";
             try {
-                return Files.readString(path2);
+                content = Files.readString(path2);
             } catch (Exception e) {
-                future.completeExceptionally(e);
+                throw new RuntimeException(e);
             }
-            return null;
+            return content;
         });
 
-//        return readFile1.thenCombine(readFile2, (first, second) -> {
-//            String file1Content = readFile1.join();
-//            String file2Content = readFile2.join();
-//            try {
-//                Files.writeString(outputPathObj, file1Content, StandardOpenOption.CREATE);
-//                Files.writeString(outputPathObj, file2Content, StandardOpenOption.APPEND);
-//            } catch (Exception e) {
-//                future.completeExceptionally(e);
-//            }
-//        }).writeToFile.exceptionally(e -> {
-//            System.out.println("Something went wrong - " + e.getMessage());
-//            return null;
-//        });
+        return content1.thenCombine(content2, (cont1, cont2) -> {
+            String union = cont1 + cont2;
+            try {
+                Files.writeString(outputPathObj, union, StandardOpenOption.CREATE);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            return "ok!";
 
-
-
-        CompletableFuture<Void> writeToFile = CompletableFuture.allOf(readFile1, readFile2).thenRunAsync(() -> {
-            String file1Content = readFile1.join();
-            String file2Content = readFile2.join();
-
-            Runnable writeTask = () -> {
-                try {
-                    Files.writeString(outputPathObj, file1Content, StandardOpenOption.CREATE);
-                    Files.writeString(outputPathObj, file2Content, StandardOpenOption.APPEND);
-                    future.complete(outputPath);
-                } catch (Exception e) {
-                    future.completeExceptionally(e);
-                }
-            };
-            Thread writeThread = new Thread(writeTask);
-            writeThread.start();
+        }).exceptionally(ex -> {
+            System.out.println("Oops! We have an exception - " + ex.getMessage());
+            return "Unknown!";
         });
-        return future;
     }
     // END
 
