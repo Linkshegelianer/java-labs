@@ -1,5 +1,10 @@
 FROM gradle:7.4.0-jdk17
-ARG JAR_FILE=app/build/libs/*.jar
-COPY ${JAR_FILE} simple-application.jar
+
+WORKDIR /app
+
+COPY ./app .
+
+CMD ["gradle", "bootRun"]
+
 EXPOSE 3000
-ENTRYPOINT ["java", "-jar", "simple-application.jar"]
+
