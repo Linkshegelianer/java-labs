@@ -2,6 +2,8 @@
 
 This repository contains a set of Java-related assignments dedicated to such topics as collections framework, OOP, web-development, Spring, Docker and advanced topics.
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/b628f364f74f171d42f9/maintainability)](https://codeclimate.com/github/Linkshegelianer/java-labs/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/b628f364f74f171d42f9/test_coverage)](https://codeclimate.com/github/Linkshegelianer/java-labs/test_coverage)
+
 ## Index
 * **Collections**
     * [Lists](https://github.com/Linkshegelianer/java-labs/tree/main/java-collections-ru/lists)
