@@ -1,114 +1,63 @@
-# Домашние задания
+# Java assignments labs
 
-Работа над домашними заданиями происходит на компьютере студента. 
+This repository contains a set of Java-related assignments dedicated to such topics as collections framework, OOP, web-development, Spring, Docker and advanced topics.
 
-Для каждого домашнего задания мы подготовили отдельный набор файлов. Обычно в нем содержится:
-
-* Текст задачи (файл README) 
-* Тесты кода
-* Линтер
-* Описание зависимостей 
-* Пустой файл, в который студент запишет свое решение
-
-Все эти файлы хранятся на нашем Gitlab, а утилита *Hexlet CLI* выступает интерфейсом для работы с этой системой.
-
-## Команды в утилите Hexlet CLI
-
-Утилита вызывается по имени *hexlet*, и содержит несколько команд:
-
-* *assignments init* — создает репозиторий с именем *hexlet-assignments* в профиле студента на Github
-    
-    В этот репозиторий будут отправляться все домашние задания, которые вы выполняете на Хекслете, независимо от учебной программы. Для всех учебных программ репозиторий будет один. Имя *hexlet-assignments* для репозитория должно быть свободно.
-
-    Одновременно с созданием репозитория команда *assignments init* совершает еще два действия: 
-    
-    * Создает конфигурационный файл
-    * Создает директорию *Hexlet/hexlet-assignments* в домашней директории на компьютере студента
-
-* *assignment download* — скачивает домашнее задание
-    
-    Эта команда обращается к общей директории *Hexlet/hexlet-assignments* и создает там новые файлы:
-    
-     * Поддиректорию с именем курса
-     * Поддиректорию с домашним заданием
-       
-    Теперь там будет храниться все необходимое для домашнего задания: файлы для решения, текст задачи, тесты, линтер и прочее. 
-    То же самое можно сделать и без команды: надо зайти на страницу домашней работы, найти ссылку на нужное задание и скачать его.
-    
-* *assignment submit* — отправляет текущее домашнее задание в репозиторий на GitHub
-
-    Выполненное задание нужно отправить на проверку — именно это и делает команда *submit*.
-    Она выполняется из локальной директории домашней работы и пушит в ваш удаленный репозиторий все файлы, связанные с текущим заданием. Когда решение студента готово, тесты и линтер локально пройдены, то можно выполнить *submit*. На GitHub также подключены тесты и линтер. 
-
-* *assignment reset* — скачивает новую версию домашнего задания.
-
-    Если уже во время выполнения домашнего задания появляется новая версия упражнения, нужно выполнить *reset*, чтобы повторно скачать ее.
-
-Команды *assignment download* и *assignment reset* создают резервную копию домашнего задания, над которым идет работа. Если выполнить команду *assignment reset* или *assignment download*, то проделанная работа не потеряется. Старая версия с вашими наработками сохранится в новой директории с текущими датой и временем в названии.
-
-### Аргументы
-
-У команд *assignment download* и *assignment reset* есть аргумент *lesson-url*. Ниже мы покажем, как он используется и где взять нужные значения:
-
-* *lesson-url* — адрес урока с домашним заданием. Можно взять его из адресной строки урока или скопировать уже готовую команду для скачивания на странице домашнего задания
-
-### Опции
-
-* *--github-token* – *Personal access token* из GitHub
-* *--hexlet-token* – Ваш персональный токен Хекслета
-
-### Использование
-
-Перед тем, как начать работу с домашним заданием, нужно выполнить инициализацию проекта. Это можно сделать с помощью команды *hexlet assignments init*. У нее есть несколько опций:
-
-* *--github-token* – Обязательная. *Personal access token* из GitHub. [Создайте](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) свой Personal access token [здесь](https://github.com/settings/tokens). При создании токена сделайте его бессрочным и проставьте разрешения на *repo* и *workflow*
-* *--hexlet-token* – Обязательная. Ваш персональный токен Хекслета. Этот токен автоматически подставлен в команду на странице домашнего задания
-* *--hexlet-dir* – Необязательная. Директория, в которую будут скачиваться домашние задания. По умолчанию это будет директория Hexlet в вашей домашней директории
-
-Перейдите на страницу домашней работы, которую нужно скачать. На странице по ссылке «Инициализация утилиты» идентификатор *hexlet-token* уже подставлен в команду для инициализации:
-
-```bash
-hexlet assignments init --github-token=<token from github> --hexlet-token=<your hexlet token>
-```
-
-Для инициализации проекта остаётся скопировать команду, вставить свой Personal access token из GitHub и выполнить ее:
-
-```bash
-# Можно вызывать из любого каталога
-
-hexlet assignments init --github-token=<token from github> --hexlet-token=<your hexlet token>
-```
-
-Инициализацию нужно выполнить один раз перед скачиванием первой домашней работы. Если потребуется изменить расположение локальной директории с домашними работами или восстановить настройки и конфиг локального репозитория, инициализацию нужно выполнить повторно.
-
-Далее можно переходить с выполнению домашней работы. Для команд *assignment download* и *assignment reset* аргументом нужно указать адрес урока с домашним заданием. Адрес урока можно скопировать из адресной строки. Также вы можете взять уже готовую команду на скачивание со страницы домашнего задания:
-
-```bash
-# Эта команда скачивает на компьютер домашнее задание с указанным lesson-url
-hexlet assignment download https://ru.hexlet.io/courses/java-collections/lessons/lists/assignment_unit
-```
-
-```bash
-# Если во время выполнения появилась новая версия
-# Эта команда скачивает новую версию домашнего задания
-# Предыдущую версию и ваши наработки она скопирует в новую директорию
-hexlet assignment reset https://ru.hexlet.io/courses/java-collections/lessons/lists/assignment_unit
-```
-
-Команда *assignment submit* выполняется без аргументов из директории выполненного домашнего задания или любой его поддиректории:
-
-```bash
-# Отправляет выполненное домашнее задание на GitHub
-# Выполняются команды git add, commit, push
-hexlet assignment submit
-```
-
-Если вы хотите вспомнить весь список актуальных команд, можно вывести справочную информацию:
-
-```bash
-hexlet assignments --help
-```
-
-```bash
-hexlet assignment --help
-```
+## Index
+* **Collections**
+    * [Lists](https://github.com/Linkshegelianer/java-labs/tree/main/java-collections-ru/lists)
+    * [Maps](https://github.com/Linkshegelianer/java-labs/tree/main/java-collections-ru/maps) & [LinkedHashMaps](https://github.com/Linkshegelianer/java-labs/tree/main/java-collections-ru/other-collections)
+    * [Streams](https://github.com/Linkshegelianer/java-labs/tree/main/java-collections-ru/streams) & [Advanced streams](https://github.com/Linkshegelianer/java-labs/tree/main/java-collections-ru/advanced-streams)
+    * [Lambdas](https://github.com/Linkshegelianer/java-labs/tree/main/java-collections-ru/lambdas)
+    * [Generics](https://github.com/Linkshegelianer/java-labs/tree/main/java-collections-ru/generics)
+    * [Tests](https://github.com/Linkshegelianer/java-labs/tree/main/java-collections-ru/tests)
+* **OOP**
+    * [Classes and objects](https://github.com/Linkshegelianer/java-labs/tree/main/java-oop-ru/classes-and-objects)
+    * [Code generation](https://github.com/Linkshegelianer/java-labs/tree/main/java-oop-ru/code-generation)
+    * [Errors](https://github.com/Linkshegelianer/java-labs/tree/main/java-oop-ru/errors)
+    * [Inheritance](https://github.com/Linkshegelianer/java-labs/tree/main/java-oop-ru/inheritance)
+    * [Interfaces](https://github.com/Linkshegelianer/java-labs/tree/main/java-oop-ru/interfaces)
+    * [Patterns](https://github.com/Linkshegelianer/java-labs/tree/main/java-oop-ru/patterns)
+    * [Reflections](https://github.com/Linkshegelianer/java-labs/tree/main/java-oop-ru/reflections)
+    * [Subtyping](https://github.com/Linkshegelianer/java-labs/tree/main/java-oop-ru/subtyping)
+* **Web**
+    1. [HTTP](https://github.com/Linkshegelianer/java-labs/tree/main/java-web-ru/http)
+    2. [Servlet](https://github.com/Linkshegelianer/java-labs/tree/main/java-web-ru/servlet)
+    3. [Deploy](https://github.com/Linkshegelianer/java-labs/tree/main/java-web-ru/deploy)
+    4. [HTML](https://github.com/Linkshegelianer/java-labs/tree/main/java-web-ru/html)
+    5. [Templating](https://github.com/Linkshegelianer/java-labs/tree/main/java-web-ru/templating)
+    6. [CRUD in memory](https://github.com/Linkshegelianer/java-labs/tree/main/java-web-ru/crud-in-memory)
+    7. [Session](https://github.com/Linkshegelianer/java-labs/tree/main/java-web-ru/session)
+    8. [Logging](https://github.com/Linkshegelianer/java-labs/tree/main/java-web-ru/logging)
+    9. [SQL](https://github.com/Linkshegelianer/java-labs/tree/main/java-web-ru/sql)
+    10. [JDBC](https://github.com/Linkshegelianer/java-labs/tree/main/java-web-ru/jdbc)
+    11. [CRUD in DB](https://github.com/Linkshegelianer/java-labs/tree/main/java-web-ru/crud-in-db)
+    12. [ORM](https://github.com/Linkshegelianer/java-labs/tree/main/java-web-ru/orm)
+    13. [Javalin](https://github.com/Linkshegelianer/java-labs/tree/main/java-web-ru/javalin)
+    14. [Validation](https://github.com/Linkshegelianer/java-labs/tree/main/java-web-ru/validation)
+    15. [REST API](https://github.com/Linkshegelianer/java-labs/tree/main/java-web-ru/rest-api)
+    16. [Tests](https://github.com/Linkshegelianer/java-labs/tree/main/java-web-ru/tests)
+* **Spring**
+    1. [Introduction to Spring](https://github.com/Linkshegelianer/java-labs/tree/main/java-spring-ru/intro-to-spring)
+    2. [Migrations](https://github.com/Linkshegelianer/java-labs/tree/main/java-spring-ru/migrations)
+    3. [Spring ORM](https://github.com/Linkshegelianer/java-labs/tree/main/java-spring-ru/spring-orm)
+    4. [Spring tests](https://github.com/Linkshegelianer/java-labs/tree/main/java-spring-ru/spring-tests)
+    5. [ORM Relations](https://github.com/Linkshegelianer/java-labs/tree/main/java-spring-ru/relations)
+    6. [Finite state machine](https://github.com/Linkshegelianer/java-labs/tree/main/java-spring-ru/finite-state-machine)
+    7. [Trees](https://github.com/Linkshegelianer/java-labs/tree/main/java-spring-ru/trees)
+    8. [Open API](https://github.com/Linkshegelianer/java-labs/tree/main/java-spring-ru/open-api)
+    9. [Filtration](https://github.com/Linkshegelianer/java-labs/tree/main/java-spring-ru/filtration)
+    10. [Nested Resources](https://github.com/Linkshegelianer/java-labs/tree/main/java-spring-ru/nested-resources)
+    11. [Authentication](https://github.com/Linkshegelianer/java-labs/tree/main/java-spring-ru/authentication)
+    12. [Authorization](https://github.com/Linkshegelianer/java-labs/tree/main/java-spring-ru/authorization)
+    13. [Service layer](https://github.com/Linkshegelianer/java-labs/tree/main/java-spring-ru/service-layer)
+    14. [Queues](https://github.com/Linkshegelianer/java-labs/tree/main/java-spring-ru/queues)
+    15. [Spring lifecycle](https://github.com/Linkshegelianer/java-labs/tree/main/java-spring-ru/spring-lifecycle)
+    16. [Custom Annotations](https://github.com/Linkshegelianer/java-labs/tree/main/java-spring-ru/custom-annotations)
+* **Advanced Java**
+    * [Asynchony](https://github.com/Linkshegelianer/java-labs/tree/main/java-advanced-ru/asynchrony)
+    * [Docker](https://github.com/Linkshegelianer/java-labs/tree/main/java-advanced-ru/docker)
+    * [Multithreading](https://github.com/Linkshegelianer/java-labs/tree/main/java-advanced-ru/multithreading)
+    * [Multithreading in Java](https://github.com/Linkshegelianer/java-labs/tree/main/java-advanced-ru/multithreading-java)
+    * [Multithreading in Spring](https://github.com/Linkshegelianer/java-labs/tree/main/java-advanced-ru/multithreading-spring)
+    * [Sync Primitives](https://github.com/Linkshegelianer/java-labs/tree/main/java-advanced-ru/sync-primitives)
+    * [Test-containers](https://github.com/Linkshegelianer/java-labs/tree/main/java-advanced-ru/test-containers)
