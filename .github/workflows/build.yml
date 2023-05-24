@@ -20,4 +20,12 @@ jobs:
 
       - name: Build advanced/asynchrony
         working-directory: java-advanced-ru/asynchrony
-        run: gradle run
+        run: gradle build
+
+      - name: Build oop/errors
+        working-directory: java-oop-ru/errors
+        run: gradle build
+
+      - name: Build collections/lists
+        working-directory: java-collections-ru/generics
+        run: gradle build
