@@ -18,14 +18,14 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Build advanced/asynchrony
-        working-directory: java-advanced-ru/asynchrony
-        run: gradle build
-
-      - name: Build oop/errors
-        working-directory: java-oop-ru/errors
-        run: gradle build
-
-      - name: Build collections/lists
-        working-directory: java-collections-ru/generics
-        run: gradle build
+      - name: Build directories
+        run: |
+          bigDirectories=("java-advanced-ru" "java-oop-ru" "java-collections-ru")
+          for bigDir in "${bigDirectories[@]}"; do
+            projectDirectories=$(find "$bigDir" -type f -name "gradlew" -exec dirname {} \;)
+            for projectDir in $projectDirectories; do
+              pushd "$projectDir"
+              gradle build
+              popd
+            done
+          done
