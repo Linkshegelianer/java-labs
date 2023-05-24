@@ -20,4 +20,4 @@ jobs:
 
       - name: Build advanced/asynchrony
         working-directory: java-advanced-ru/asynchrony
-        run: ./gradlew build
+        run: gradle run
