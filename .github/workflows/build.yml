@@ -22,10 +22,13 @@ jobs:
         run: |
           bigDirectories=("java-collections-ru" "java-oop-ru" "java-web-ru" "java-advanced-ru" "java-spring-ru")
           for bigDir in "${bigDirectories[@]}"; do
-            projectDirectories=$(find "$bigDir" -type f -name "gradlew" -exec dirname {} \;)
+          # retrieve directory containing gradlew file & replace {} with it
+            projectDirectories=$(find "$bigDir" -type f -name "gradlew" -exec dirname {} \;) 
             for projectDir in $projectDirectories; do
+          # navigate to dir & temporarily assign it as working directory
               pushd "$projectDir"
               gradle build
+          # return to the previous working directory
               popd
             done
           done
