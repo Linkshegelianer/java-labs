@@ -20,7 +20,7 @@ jobs:
 
       - name: Build directories
         run: |
-          bigDirectories=("java-collections-ru" "java-oop-ru" "java-web-ru" "java-spring-ru" "java-advanced-ru")
+          bigDirectories=("java-collections-ru" "java-oop-ru" "java-web-ru" "java-advanced-ru")
           for bigDir in "${bigDirectories[@]}"; do
             projectDirectories=$(find "$bigDir" -type f -name "gradlew" -exec dirname {} \;)
             for projectDir in $projectDirectories; do
